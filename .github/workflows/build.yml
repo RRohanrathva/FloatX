@@ -40,7 +40,8 @@ jobs:
 
       - name: Build release APK
         working-directory: ${{ env.PROJECT_DIR }}
-        run: gradle clean assembleRelease --console-plain --stacktrace
+        run: gradle clean assembleRelease --stacktrace
+
 
       - name: Collect APK
         run: |
