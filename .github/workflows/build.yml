@@ -37,7 +37,7 @@ jobs:
 
       - name: Build release APK
         working-directory: ${{ env.PROJECT_DIR }}
-        runrun: gradle assembleRelease --console=plain
+        run: gradle assembleRelease --console=plain
 
       - name: Collect APK
         run: |
