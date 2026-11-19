@@ -23,9 +23,7 @@ jobs:
           unzip -q "$ZIP" -d /tmp/proj
           SETTINGS=$(find /tmp/proj -maxdepth 4 -name "settings.gradle.kts" | head -n1)
           if [ -z "$SETTINGS" ]; then echo "settings.gradle.kts not found in zip"; exit 1; fi
-          PROJ_DIR=$(dirname "$SETTINGS")
-          echo "PROJECT_DIR=$PROJ_DIR" >> "$GITHUB_ENV"
-          ls -la "$PROJ_DIR/app/src/main/aidl/com/floatx/app/shizuku" || true
+          echo "PROJECT_DIR=$(dirname "$SETTINGS")" >> "$GITHUB_ENV"
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
@@ -33,15 +31,9 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v4
-        with:
-          gradle-version: 8.11.1
-
       - name: Build release APK
         working-directory: ${{ env.PROJECT_DIR }}
-        run: gradle clean assembleRelease --stacktrace
-
+        run: gradle assembleRelease --refresh-dependencies --stacktrace
 
       - name: Collect APK
         run: |
